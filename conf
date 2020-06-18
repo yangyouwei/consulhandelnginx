@@ -3,3 +3,4 @@ tpl_path=./ups.tpl
 upstream_path=./demo.conf
 log=true
 log_dir=/root/logs
+dyups_url=http://192.168.3.112:18882/upstream/

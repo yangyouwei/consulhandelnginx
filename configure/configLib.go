@@ -1,7 +1,6 @@
 package configure
 
 import (
-	"fmt"
 	"github.com/Unknwon/goconfig"
 	"log"
 )
@@ -11,6 +10,7 @@ type MainConf struct {
 	UpsPath          string
 	Log bool
 	LogPath string
+	DyupsUrl string
 }
 
 var  mainconfigpath string = "./conf"
@@ -18,7 +18,6 @@ var Mainconf MainConf
 
 func init()  {
 	Mainconf.GetMainConf()
-	fmt.Println(Mainconf)
 }
 
 func (m *MainConf) GetMainConf() {
@@ -38,6 +37,8 @@ func (m *MainConf) GetMainConf() {
 			m.Log = stringtobool(v)
 		case "log_dir":
 			m.LogPath = v
+		case "dyups_url":
+			m.DyupsUrl = v
 		}
 	}
 }

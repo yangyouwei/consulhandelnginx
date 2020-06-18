@@ -29,15 +29,16 @@ func GenConf(s *jsonParse.Service)  {
 	err := t.Execute(buffer, s)
 	if err != nil {
 		log.Println("Executing template:", err)
+		return
 	}
 
 	//创建配置文件
 	fd, err := os.OpenFile(configure.Mainconf.UpsPath, os.O_WRONLY | os.O_CREATE | os.O_TRUNC, 0644)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 	defer fd.Close()
 	fd.Write(buffer.Bytes())
-	fmt.Println("save conf to file.")
-	fmt.Println("services: ",s)
+	fmt.Println("save cnf to file ,services: ",s)
 }
