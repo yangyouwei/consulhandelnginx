@@ -1,0 +1,5 @@
+[main]
+tpl_path=./ups.tpl
+upstream_path=./demo.conf
+log=true
+log_dir=/root/logs
