@@ -44,9 +44,6 @@ tengine 编译配置
 
 本程序编译
 
-    go get https://github.com/yangyouwei/consulhandelnginx.git
-    进入GO_PATH/src/github.com/yangyouwei/consulhandelnginx
-    go build
-    
     使用了gin框架。可能会出现go get很慢。建议用国外主机编译。
+    有时间去掉框架，直接用go的原生http包实现。
     
