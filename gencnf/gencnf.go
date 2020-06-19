@@ -33,7 +33,7 @@ func GenConf(s *jsonParse.Service)  {
 	}
 
 	//创建配置文件
-	fd, err := os.OpenFile(configure.Mainconf.UpsPath, os.O_WRONLY | os.O_CREATE | os.O_TRUNC, 0644)
+	fd, err := os.OpenFile(configure.Mainconf.UpsPath + s.Name+".conf", os.O_WRONLY | os.O_CREATE | os.O_TRUNC, 0644)
 	if err != nil {
 		log.Fatal(err)
 		return
