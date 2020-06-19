@@ -22,10 +22,10 @@
     upstream_path=./
     #dyups模块的接口地址，必须以“/”结尾
     dyups_url=http://192.168.3.112:18882/upstream/
-    #listen port  :9527 |  127.0.0.1:9527
+    #api 监听端口格式  :9527 |  127.0.0.1:9527
     listen_port=:9527
 
 命令
 
     main [-c /etc/consu-watch/conf]
-    不指定配置文件，找本地路径的下的conf文件。
+    不指定配置文件，找本地路径（main的 ./）的下的conf文件。
