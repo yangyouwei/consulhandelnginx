@@ -12,6 +12,18 @@
         watch监控服务变化，向指定api推送可用服务（json格式）。 
     tengine（编译了dyups模块）
         开启dyups模块的http接口
+
+tengine 编译配置
+
+    ./configure --add-module=/root/tengine-2.3.2/modules/ngx_http_upstream_dyups_module/
+    
+    [root@localhost conf.d]# cat dyups_management.conf 
+         server {
+            listen  18882; 
+            location / {
+                dyups_interface;
+            }
+        }
      
 配置文件
 
@@ -29,3 +41,12 @@
 
     main [-c /etc/consu-watch/conf]
     不指定配置文件，找本地路径（main的 ./）的下的conf文件。
+
+本程序编译
+
+    go get https://github.com/yangyouwei/consulhandelnginx.git
+    进入GO_PATH/src/github.com/yangyouwei/consulhandelnginx
+    go build
+    
+    使用了gin框架。可能会出现go get很慢。建议用国外主机编译。
+    
