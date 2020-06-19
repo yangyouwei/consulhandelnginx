@@ -1,6 +1,9 @@
 [main]
+#模板路径
 tpl_path=./ups.tpl
+#upstream路径，必须以“/”结尾
 upstream_path=./
-log=true
-log_dir=./logs
+#dyups模块的接口地址，必须以“/”结尾
 dyups_url=http://192.168.3.112:18882/upstream/
+#listen port  :9527 |  127.0.0.1:9527
+listen_port=:9527

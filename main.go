@@ -1,22 +1,38 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/yangyouwei/consulhandelnginx/configure"
 	"github.com/yangyouwei/consulhandelnginx/curldyups"
 	"github.com/yangyouwei/consulhandelnginx/gencnf"
 	"github.com/yangyouwei/consulhandelnginx/jsonParse"
 	"io/ioutil"
 	"net/http"
 )
+var Conf *configure.MainConf
+
+func init()  {
+	s := flag.String("c", "./conf", "-c /etc/consul-watcher/conf")
+	flag.Parse()
+	//解析参数
+	if *s == "" {
+		flag.Usage()
+		panic("process exit!")
+	}
+	configure.Initconfig(s)
+	Conf = &configure.Mainconf
+}
 
 func main()  {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Any("/innotify", RequestHandler)
-	router.Run(":9527") // listen and serve on 0.0.0.0:8080
+	router.Run(Conf.ListenPort) // listen and serve on 0.0.0.0:8080
 }
 
+//接口handler 处理post请求
 func RequestHandler(c *gin.Context) {
 	//read json
 	res,err := ioutil.ReadAll(c.Request.Body)

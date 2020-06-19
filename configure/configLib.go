@@ -1,8 +1,10 @@
 package configure
 
 import (
+	"fmt"
 	"github.com/Unknwon/goconfig"
 	"log"
+	"path/filepath"
 )
 
 type MainConf struct {
@@ -11,22 +13,31 @@ type MainConf struct {
 	Log bool
 	LogPath string
 	DyupsUrl string
+	ListenPort string
 }
 
-var  mainconfigpath string = "./conf"
 var Mainconf MainConf
 
-func init()  {
-	Mainconf.GetMainConf()
+func Initconfig(s *string)  {
+	cstr, err := filepath.Abs(*s)
+	if err != nil {
+		log.Panicln(err)
+	}
+	//初始化配置文件
+	cfg, err := goconfig.LoadConfigFile(cstr)
+	if err != nil {
+		log.Println("读取配置文件失败[config.ini]")
+		log.Panic(err)
+	}
+	Mainconf.GetMainConf(cfg)
 }
 
-func (m *MainConf) GetMainConf() {
-	cfg, err := goconfig.LoadConfigFile(mainconfigpath)
-	if err != nil {
-		log.Println("读取配置文件失败[main.conf]")
-		return
-	}
+func (m *MainConf) GetMainConf(cfg *goconfig.ConfigFile) {
 	key, err := cfg.GetSection("main")
+	if err != nil {
+		log.Panic(err)
+	}
+	fmt.Println(key)
 	for k, v := range key {
 		switch k {
 		case "tpl_path":
@@ -39,6 +50,8 @@ func (m *MainConf) GetMainConf() {
 			m.LogPath = v
 		case "dyups_url":
 			m.DyupsUrl = v
+		case "listen_port":
+			m.ListenPort = v
 		}
 	}
 }
