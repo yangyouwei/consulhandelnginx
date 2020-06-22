@@ -1,49 +1,29 @@
-## consul-watch
+# go-api
 
-简介
+引用第三方库
 
-    本程序接收consul watch 监控到的变化（服务--json）
-    解析json，使用go的模板库。修改nginx upstream配置文件。
-    调用dyups的http接口，修改nginx 内存中的upstream的配置，不用重启nginx
+    "github.com/gorilla/mux"  http 路由库
+    "github.com/Unknwon/goconfig" 配置文件解析库
+    如需要json解析。推荐"github.com/tidwall/gjson"
 
-使用环境
+功能
 
-    consul  使用了服务注册，使用了watch功能。
-        watch监控服务变化，向指定api推送可用服务（json格式）。 
-    tengine（编译了dyups模块）
-        开启dyups模块的http接口
+    http服务
+        服务端口需要在配置文件中配置
+        路由配置在router中配置
+    日志
+        屏幕输出或文件（配置文件配置log选项）
+    支持中间件
+        自定义中间件，需要在middleware中配置
+        默认支持日志
+        支持跨域（需要在initrouter中use）
+    支持配置文件
+        服务端口配置，监听所有地址
+        配置日志输出
+        自定义配置需要在conflib中加入解析配置代码
+        支持配置段解析
+    数据库支持
+        只有部分实例代码，使用需要修改
+        写好方法，在api的handler中引用
 
-tengine 编译配置
-
-    ./configure --add-module=/root/tengine-2.3.2/modules/ngx_http_upstream_dyups_module/
-    
-    [root@localhost conf.d]# cat dyups_management.conf 
-         server {
-            listen  18882; 
-            location / {
-                dyups_interface;
-            }
-        }
      
-配置文件
-
-    [main]
-    #模板路径
-    tpl_path=./ups.tpl
-    #upstream路径，必须以“/”结尾
-    upstream_path=./
-    #dyups模块的接口地址，必须以“/”结尾
-    dyups_url=http://192.168.3.112:18882/upstream/
-    #api 监听端口格式  :9527 |  127.0.0.1:9527
-    listen_port=:9527
-
-命令
-
-    main [-c /etc/consu-watch/conf]
-    不指定配置文件，找本地路径（main的 ./）的下的conf文件。
-
-本程序编译
-
-    使用了gin框架。可能会出现go get很慢。建议用国外主机编译。
-    有时间去掉框架，直接用go的原生http包实现。
-    
